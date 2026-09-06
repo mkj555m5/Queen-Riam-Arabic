@@ -88,7 +88,8 @@ async function handleMessages(sock) {
             if (type !== 'notify') return;
             for (const message of messages) {
                 if (!message?.message) continue;
-                if (message.key?.fromMe) continue; // تجاهل رسائل البوت نفسه
+                // ملاحظة مهمة: لا نتخطى fromMe=true لأن البوت متصل برقم المالك،
+                // فكل رسائله من نفسه ستظهر بـ fromMe=true. هذا هو السلوك الصحيح.
                 await processMessage(sock, message, sessionNumber);
             }
         } catch (err) {
@@ -104,13 +105,6 @@ async function handleMessages(sock) {
         } catch (err) {
             console.error('[main] خطأ في معالجة المكالمة:', err.message);
         }
-    });
-
-    // ── معالجة تحديثات الحالة (Status) ──────────────────────────────────────────
-    sock.ev.on('messages.upsert', async ({ messages }) => {
-        // Status updates تأتي من خلال messages.upsert مع type=status
-        // تم تعطيل الردود التلقائية على الحالات بناءً على طلب المالك
-        // المستخدم يمكنه تفعيلها يدوياً عبر .autoviewstatus on لو حابب
     });
 
     // ── معالجة تحديثات المجموعة ────────────────────────────────────────────
@@ -155,6 +149,9 @@ async function processMessage(sock, message, sessionNumber) {
     const cfg = loadConfig(sessionNumber);
     const prefix = cfg.PREFIX || settings.prefix || '.';
 
+    // سجل تشخيصي: طباعة كل رسالة واردة (للتأكد من وصولها)
+    console.log(`[msg] from=${sender} chat=${chatId} fromMe=${message.key?.fromMe} body="${body.slice(0, 80)}"`);
+
     // ── التحقق من الحظر ──────────────────────────────────────────────────────
     if (isBanned(sender, sessionNumber)) {
         return; // المستخدم محظور — تجاهل الرسالة
@@ -165,12 +162,17 @@ async function processMessage(sock, message, sessionNumber) {
     if (!parsed) return;
 
     const { command, args, query } = parsed;
+    console.log(`[cmd] أمر مستلم: "${command}" بوسائط: ${JSON.stringify(args)}`);
 
     // ── البحث عن الأمر في الـ pluginMap ──────────────────────────────────────
     const pluginEntry = pluginMap.get(command);
-    if (!pluginEntry) return; // الأمر غير موجود
+    if (!pluginEntry) {
+        console.log(`[cmd] الأمر "${command}" غير موجود في pluginMap`);
+        return;
+    }
 
     const { handler, meta } = pluginEntry;
+    console.log(`[cmd] تنفيذ الأمر "${command}" من plugin: ${meta?.category || 'general'}`);
 
     // ── التحقق من صلاحيات المشرف للأوامر الخاصة بالمجموعة ──────────────────────
     if (meta?.category === 'group' && chatId.endsWith('@g.us')) {
