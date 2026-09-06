@@ -1,0 +1,38 @@
+{
+  "users": [],
+  "groups": [],
+  "antilink": {
+    "120363428469850369@g.us": {
+      "enabled": true,
+      "action": "delete"
+    },
+    "120363429450059028@g.us": {
+      "enabled": true,
+      "action": "delete"
+    }
+  },
+  "antibadword": {},
+  "warnings": {},
+  "sudo": [],
+  "welcome": {},
+  "goodbye": {},
+  "chatbot": {},
+  "autoReaction": false,
+  "customMessages": {},
+  "antigrouptag": {
+    "120363428469850369@g.us": {
+      "enabled": true,
+      "action": "delete"
+    },
+    "120363429450059028@g.us": {
+      "enabled": true,
+      "action": "delete"
+    }
+  },
+  "groupProtection": {
+    "120363429450059028@g.us": {
+      "antivideo": true,
+      "antimedia": true
+    }
+  }
+}

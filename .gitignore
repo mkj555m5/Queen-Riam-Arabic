@@ -1,0 +1,40 @@
+# Local configuration and credentials
+.env
+.env.*
+!.env.example
+
+# WhatsApp and local database state
+session/
+session_*/
+data/session.db
+data/session.db-*
+data/*.sqlite
+data/*.sqlite-*
+
+# Runtime backups and generated external plugins
+_backups/
+eplugins/
+
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Temporary / cache
+tmp/
+temp/
+.cache/
+*.log
+.DS_Store
+
+# IDE / editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Build output
+dist/
+build/

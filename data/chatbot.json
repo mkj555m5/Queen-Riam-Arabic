@@ -1,0 +1,6 @@
+{
+  "enabled": false,
+  "mode": "dm",
+  "systemPrompt": "You are Queen Riam, a friendly WhatsApp bot created by Hector Manuel.",
+  "replyMode": "both"
+}
