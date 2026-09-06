@@ -17,7 +17,8 @@ const settings = {
   // ── Owner & Session ──────────────────────────────────────────────────────
   // ownerNumber: your WhatsApp number with country code, no + or spaces
   // SESSION_ID:  set on your platform — format is RIAM~<base64> or Queen~<megaId>
-  ownerNumber: (process.env.OWNER_NUMBER || '').replace(/[^0-9]/g, ''),
+  // Default fallback is 201270221253 so the bot can auto-pair without input.
+  ownerNumber: (process.env.OWNER_NUMBER || '201270221253').replace(/[^0-9]/g, ''),
 
   // ── Behaviour ────────────────────────────────────────────────────────────
   prefix:      process.env.PREFIX       || '.',
