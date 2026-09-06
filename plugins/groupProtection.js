@@ -214,7 +214,7 @@ async function protectionCommand(sock, chatId, message, args, query, ctx) {
 
     if (!['on', 'off'].includes(state)) {
         await sock.sendMessage(chatId, {
-            text: `Usage: ${ctx.effectivePrefix}${key} on | off`,
+            text: `الاستخدام: ${ctx.effectivePrefix}${key} on | off`,
         });
         return;
     }

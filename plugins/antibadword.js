@@ -32,7 +32,7 @@ bot({
   description: 'تفعيل/تعطيل فلتر الكلمات السيئة',
   category: 'group',
 }, async (sock, chatId, message, args, query, ctx) => {
-  if (!ctx.isGroup) { await sock.sendMessage(chatId, { text: 'Groups only.' }); return; }
+  if (!ctx.isGroup) { await sock.sendMessage(chatId, { text: 'يعمل في المجموعات فقط.' }); return; }
   const isAdmin        = require('../lib/isAdmin');
   const st = await isAdmin(sock, chatId, ctx.senderId);
   if (!st.isBotAdmin) { await sock.sendMessage(chatId, { text: '*Bot must be admin*' }); return; }

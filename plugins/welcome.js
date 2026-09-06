@@ -26,9 +26,9 @@ bot({
   description: 'تفعيل/تعطيل رسائل الترحيب',
   category: 'group',
 }, async (sock, chatId, message, args, query, ctx) => {
-  if (!ctx.isGroup) { await sock.sendMessage(chatId, { text: 'Groups only.' }); return; }
+  if (!ctx.isGroup) { await sock.sendMessage(chatId, { text: 'يعمل في المجموعات فقط.' }); return; }
   const isAdmin = require('../lib/isAdmin');
   const st = await isAdmin(sock, chatId, ctx.senderId);
-  if (!st.isSenderAdmin && !hasOwnerPrivileges(ctx.senderId, message, sock.user?.id, ctx.sessionNumber)) { await sock.sendMessage(chatId, { text: 'Admins only.' }); return; }
+  if (!st.isSenderAdmin && !hasOwnerPrivileges(ctx.senderId, message, sock.user?.id, ctx.sessionNumber)) { await sock.sendMessage(chatId, { text: 'للمشرفين فقط.' }); return; }
   await welcomeCommand(sock, chatId, message);
 });

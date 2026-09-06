@@ -99,7 +99,7 @@ async function handleLinkDetection(sock, chatId, message, userMessage, senderId)
             
             // The bot needs to be an admin to perform any action.
             if (!isBotAdmin) {
-                await sock.sendMessage(chatId, { text: 'I need to be an admin to enforce antilink rules.' });
+                await sock.sendMessage(chatId, { text: 'يجب أن أكون مشرفاً لتطبيق قواعد مكافحة الروابط.' });
                 return true;
             }
 

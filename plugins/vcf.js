@@ -8,7 +8,7 @@ bot({
   description: 'تصدير جهات اتصال المجموعة كملف VCF',
   category: 'group',
 }, async (sock, chatId, message, args, query, ctx) => {
-  if (!ctx.isGroup) { await sock.sendMessage(chatId, { text: 'Groups only!' }); return; }
+  if (!ctx.isGroup) { await sock.sendMessage(chatId, { text: 'يعمل في المجموعات فقط!' }); return; }
   const gMeta = await sock.groupMetadata(chatId);
   const isGAdmin = gMeta.participants.filter(p => p.admin).map(p => p.id).includes(ctx.senderId);
   if (!isGAdmin) { await sock.sendMessage(chatId, { text: '❌ Admins only!' }); return; }

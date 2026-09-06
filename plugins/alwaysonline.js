@@ -18,7 +18,7 @@ bot({
 
   if (!action) {
     await sock.sendMessage(chatId, {
-      text: 'Always online is currently *' + (enabled ? 'ON' : 'OFF') + '*.\n\nUsage: ' + ctx.effectivePrefix + 'alwaysonline on|off',
+      text: 'البوت متصل دائماً حالياً *' + (enabled ? 'ON' : 'OFF') + '*.\n\nUsage: ' + ctx.effectivePrefix + 'alwaysonline on|off',
     });
     return;
   }

@@ -73,7 +73,7 @@ async function insultCommand(sock, chatId, message) {
             await new Promise(resolve => setTimeout(resolve, 2000));
             try {
                 await sock.sendMessage(chatId, { 
-                    text: 'Please try again in a few seconds.'
+                    text: 'حاول مرة أخرى بعد بضع ثوانٍ.'
                 });
             } catch (retryError) {
                 console.error('Error sending retry message:', retryError);

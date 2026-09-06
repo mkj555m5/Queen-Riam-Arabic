@@ -42,6 +42,6 @@ bot({
   description: 'شِب شخصين',
   category: 'fun',
 }, async (sock, chatId, message, args, query, ctx) => {
-  if (!ctx.isGroup) { await sock.sendMessage(chatId, { text: 'This command can only be used in groups!' }); return; }
+  if (!ctx.isGroup) { await sock.sendMessage(chatId, { text: 'هذا الأمر يعمل في المجموعات فقط!' }); return; }
   await shipCommand(sock, chatId, message);
 });

@@ -60,6 +60,6 @@ bot({
   description: 'عرض مشرفي المجموعة',
   category: 'group',
 }, async (sock, chatId, message, args, query, ctx) => {
-  if (!ctx.isGroup) { await sock.sendMessage(chatId, { text: 'Groups only!' }); return; }
+  if (!ctx.isGroup) { await sock.sendMessage(chatId, { text: 'يعمل في المجموعات فقط!' }); return; }
   await staffCommand(sock, chatId, message);
 });

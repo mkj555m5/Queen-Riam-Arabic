@@ -128,6 +128,6 @@ bot({
   hidden: true,
 }, async (sock, chatId, message, args) => {
   const ans = args.join(' ');
-  if (!ans) { await sock.sendMessage(chatId, { text: 'Usage: .answer <answer>' }); return; }
+  if (!ans) { await sock.sendMessage(chatId, { text: 'الاستخدام: .answer <الإجابة>' }); return; }
   answerTrivia(sock, chatId, ans, message);
 });

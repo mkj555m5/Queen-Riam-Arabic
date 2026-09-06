@@ -64,6 +64,6 @@ bot({
   if (quoted?.stickerMessage) {
     await simageCommand(sock, quoted, chatId);
   } else {
-    await sock.sendMessage(chatId, { text: 'Please reply to a sticker with ' + ctx.effectivePrefix + 'simage.' });
+    await sock.sendMessage(chatId, { text: 'من فضلك رد على ملصق بـ ' + ctx.effectivePrefix + 'simage.' });
   }
 });

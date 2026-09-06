@@ -223,6 +223,6 @@ bot({
   hidden: true,
 }, async (sock, chatId, message, args, query, ctx) => {
   const pos = parseInt(args[0]);
-  if (isNaN(pos)) { await sock.sendMessage(chatId, { text: 'Please provide a valid position number.' }); return; }
+  if (isNaN(pos)) { await sock.sendMessage(chatId, { text: 'من فضلك أدخل رقم خانة صحيح.' }); return; }
   handleTicTacToeMove(sock, chatId, ctx.senderId, pos);
 });
