@@ -469,9 +469,9 @@ const handler = async (m, { conn }) => {
   }
 };
 
-handler.help = ['xo', 'إكس_أو'];
-handler.description = 'لعبة إكس أو ضد الذكاء الاصطناعي';
+handler.help = ['xo'];
+handler.description = 'Tic Tac Toe vs AI (single player)';
 handler.tags = ['game'];
-handler.command = ['xo', 'إكس_أو', 'اكس_او', 'tictactoe'];
+handler.command = ['xo', 'tictactoe', 'xoai'];
 
 export default handler;

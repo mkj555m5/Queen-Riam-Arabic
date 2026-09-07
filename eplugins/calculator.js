@@ -342,9 +342,9 @@ const handler = async (m, { conn }) => {
   }
 };
 
-handler.help = ['calc', 'حاسبة'];
-handler.description = 'حاسبة تفاعلية بواجهة عربية';
+handler.help = ['calc'];
+handler.description = 'Interactive calculator';
 handler.tags = ['tools'];
-handler.command = ['calc', 'حاسبة', 'حاسبه', 'calculator'];
+handler.command = ['calc', 'calculator'];
 
 export default handler;

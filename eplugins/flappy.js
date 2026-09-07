@@ -748,10 +748,10 @@ const handler = async (m, { conn }) => {
   }
 };
 
-handler.help = ['طائر', 'flappy'];
-handler.description = 'لعبة طائر فلابي التفاعلية';
+handler.help = ['flappy'];
+handler.description = 'Flappy Bird interactive game';
 handler.tags = ['game'];
-handler.command = /^(flappy|flappybird|طائر|فلابي)$/i;
+handler.command = /^(flappy|flappybird)$/i;
 handler.limit = false;
 
 export default handler;

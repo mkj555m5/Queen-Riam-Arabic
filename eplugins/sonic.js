@@ -998,9 +998,9 @@ let handler = async (m, { conn }) => {
     }
 };
 
-handler.help = ['سونيك', 'dash', 'sonic'];
-handler.description = 'لعبة سونيك داش التفاعلية';
+handler.help = ['sonic', 'dash'];
+handler.description = 'Sonic Dash interactive game';
 handler.tags = ['game'];
-handler.command = /^(dash|sonic|speedy|speeddash|سونيك)$/i;
+handler.command = /^(dash|sonic|speedy|speeddash)$/i;
 
 export default handler;

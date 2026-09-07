@@ -23,7 +23,7 @@ async function languageCommand(sock, chatId, message, args, sessionNumber) {
 const { bot } = require('../lib/pluginLoader');
 
 bot({
-  command: ['language', 'lang', 'لغة', 'اللغة'],
+  command: ['language', 'lang'],
   description: 'عرض إعدادات اللغة',
   category: 'owner',
 }, async (sock, chatId, message, args, query, ctx) => {

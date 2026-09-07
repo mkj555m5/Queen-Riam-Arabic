@@ -78,9 +78,9 @@ export let handler = async (m, { conn }) => {
   );
 };
 
-handler.help = ['ديناصور', 'dino'];
-handler.description = 'لعبة الديناصور التفاعلية';
+handler.help = ['dino'];
+handler.description = 'Dino Runner interactive game';
 handler.tags = ['game'];
-handler.command = /^(dino|dinogame|dinorunner|ديناصور)$/i;
+handler.command = /^(dino|dinogame|dinorunner)$/i;
 
 export default handler;
