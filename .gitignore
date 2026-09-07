@@ -11,9 +11,9 @@ data/session.db-*
 data/*.sqlite
 data/*.sqlite-*
 
-# Runtime backups and generated external plugins
+# Runtime backups
 _backups/
-eplugins/
+# NOTE: eplugins/ is tracked (Yato plugins source). Do NOT ignore it.
 
 # Node.js
 node_modules/
