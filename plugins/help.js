@@ -51,6 +51,7 @@ const CATEGORY_ORDER = ['ai','download','fun','games','general','group','owner',
 function getCommandsByCategory(categoryKey) {
     const seen  = new Set();
     const cmds  = [];
+    // إضافات Queen Riam الأصلية
     for (const [cmdName, { meta }] of pluginMap) {
         if ((meta.category || 'general') !== categoryKey) continue;
         if (meta.hidden) continue;
@@ -66,6 +67,19 @@ function getCommandsByCategory(categoryKey) {
             cmds.push('.' + normalized);
         }
     }
+    // إضافات Yato (ESM)
+    try {
+        const yatoAdapter = require('../lib/yatoAdapter');
+        const yatoList = yatoAdapter.getYatoCommandList();
+        for (const entry of yatoList) {
+            if (entry.category !== categoryKey) continue;
+            if (entry.hidden) continue;
+            const normalized = String(entry.command || '').toLowerCase().trim();
+            if (!normalized || seen.has(normalized)) continue;
+            seen.add(normalized);
+            cmds.push('.' + normalized);
+        }
+    } catch (_) { /* adapter غير محمّل — تجاهل */ }
     return cmds;
 }
 

@@ -105,6 +105,16 @@ async function startBot() {
         console.error(chalk.yellow('[boot] تعذر تحميل الإضافات الخارجية:', err.message));
     }
 
+    // ── تحميل إضافات Yato (ESM من eplugins/) ─────────────────────────────────
+    try {
+        const yatoAdapter = require('./lib/yatoAdapter');
+        await yatoAdapter.loadYatoPlugins();
+        const yatoList = yatoAdapter.getYatoCommandList();
+        console.log(chalk.cyan(`[boot] تم تسجيل ${yatoList.length} أمر Yato في القائمة`));
+    } catch (err) {
+        console.error(chalk.yellow('[boot] تعذر تحميل إضافات Yato:', err.message));
+    }
+
     // ── إنشاء مجلد الجلسة ─────────────────────────────────────────────────────
     const sessionDir = path.join(__dirname, 'session');
     if (!fs.existsSync(sessionDir)) {

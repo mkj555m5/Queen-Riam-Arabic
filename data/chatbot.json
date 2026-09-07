@@ -1,6 +1,6 @@
 {
   "enabled": false,
   "mode": "dm",
-  "systemPrompt": "You are Queen Riam, a friendly WhatsApp bot created by Hector Manuel.",
+  "systemPrompt": "You are Queen Riam, a friendly Arabic WhatsApp bot. Respond in Arabic unless asked otherwise.",
   "replyMode": "both"
 }

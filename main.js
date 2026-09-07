@@ -22,6 +22,7 @@ const { isButtonModeOn, sendButtonMessage } = require('./lib/buttonHelper');
 const isAdmin = require('./lib/isAdmin');
 const { isBanned } = require('./lib/isBanned');
 const { hasOwnerPrivileges } = require('./plugins/sudo');
+const yatoAdapter = require('./lib/yatoAdapter');
 
 // ── أدوات مساعدة ──────────────────────────────────────────────────────────
 
@@ -164,42 +165,81 @@ async function processMessage(sock, message, sessionNumber) {
     const { command, args, query } = parsed;
     console.log(`[cmd] أمر مستلم: "${command}" بوسائط: ${JSON.stringify(args)}`);
 
-    // ── البحث عن الأمر في الـ pluginMap ──────────────────────────────────────
+    // ── البحث عن الأمر في الـ pluginMap (إضافات Queen Riam الأصلية) ───────────────
     const pluginEntry = pluginMap.get(command);
-    if (!pluginEntry) {
-        console.log(`[cmd] الأمر "${command}" غير موجود في pluginMap`);
+
+    if (pluginEntry) {
+        const { handler, meta } = pluginEntry;
+        console.log(`[cmd] تنفيذ الأمر "${command}" من plugin: ${meta?.category || 'general'}`);
+
+        // ── التحقق من صلاحيات المشرف للأوامر الخاصة بالمجموعة ──────────────────
+        if (meta?.category === 'group' && chatId.endsWith('@g.us')) {
+            const adminCheck = await isAdmin(sock, chatId, sender);
+            if (!adminCheck.isSenderAdmin && !hasOwnerPrivileges(sender, message, sock.user?.id, sessionNumber)) {
+                await sock.sendMessage(chatId, { text: t.common_user_not_admin }, { quoted: message });
+                return;
+            }
+        }
+
+        // ── تنفيذ الأمر ──────────────────────────────────────────────────────────
+        try {
+            const ctx = { sessionNumber, sender, chatId, message, args, query };
+            await handler(sock, chatId, message, args, query, ctx);
+        } catch (err) {
+            console.error(`[main] خطأ في تنفيذ الأمر "${command}":`, err.message);
+            try { await sock.sendMessage(chatId, { text: t.common_error }, { quoted: message }); } catch (_) {}
+        }
         return;
     }
 
-    const { handler, meta } = pluginEntry;
-    console.log(`[cmd] تنفيذ الأمر "${command}" من plugin: ${meta?.category || 'general'}`);
+    // ── البحث في إضافات Yato (ESM من eplugins/) ─────────────────────────────────
+    const yatoEntry = yatoAdapter.findYatoHandler(command);
+    if (yatoEntry) {
+        const { handler: yatoHandler, meta: yatoMeta } = yatoEntry;
+        console.log(`[cmd] تنفيذ أمر Yato "${command}" (${yatoMeta?.tags || 'general'})`);
 
-    // ── التحقق من صلاحيات المشرف للأوامر الخاصة بالمجموعة ──────────────────────
-    if (meta?.category === 'group' && chatId.endsWith('@g.us')) {
-        const adminCheck = await isAdmin(sock, chatId, sender);
-        if (!adminCheck.isSenderAdmin && !hasOwnerPrivileges(sender, message, sock.user?.id, sessionNumber)) {
-            await sock.sendMessage(chatId, { text: t.common_user_not_admin }, { quoted: message });
-            return;
+        // التحقق من صلاحيات المالك لو handler.rowner = true
+        if (yatoMeta?.rowner || yatoMeta?.owner) {
+            if (!hasOwnerPrivileges(sender, message, sock.user?.id, sessionNumber)) {
+                await sock.sendMessage(chatId, {
+                    text: '❌ هذا الأمر متاح للمالك فقط.',
+                }, { quoted: message });
+                return;
+            }
         }
-    }
 
-    // ── تنفيذ الأمر ──────────────────────────────────────────────────────────
-    try {
-        const ctx = {
-            sessionNumber,
+        // بناء ctx وم النموذج Yato
+        const conn = yatoAdapter.buildConn(sock);
+        const m = yatoAdapter.buildM(sock, chatId, message);
+
+        // ملاحظة: الـ handler بتاع Yato بياخد (m, ctx)
+        // ctx فيها: conn, text, usedPrefix, command, args, ...
+        // استخرج النص بعد الأمر (الكلام الباقي بعد prefix + command)
+        const fullText = yatoAdapter.getFullText(message);
+        const usedPrefix = prefix;
+        const yatoCtx = {
+            conn,
+            text: query || '',
+            usedPrefix,
+            command,
+            args,
             sender,
             chatId,
             message,
-            args,
-            query,
+            sessionNumber,
+            isOwner: hasOwnerPrivileges(sender, message, sock.user?.id, sessionNumber),
         };
-        await handler(sock, chatId, message, args, query, ctx);
-    } catch (err) {
-        console.error(`[main] خطأ في تنفيذ الأمر "${command}":`, err.message);
+
         try {
-            await sock.sendMessage(chatId, { text: t.common_error }, { quoted: message });
-        } catch (_) {}
+            await yatoHandler(m, yatoCtx);
+        } catch (err) {
+            console.error(`[main] خطأ في Yato handler "${command}":`, err.message);
+            try { await sock.sendMessage(chatId, { text: `❌ خطأ: ${err.message}` }, { quoted: message }); } catch (_) {}
+        }
+        return;
     }
+
+    console.log(`[cmd] الأمر "${command}" غير موجود في pluginMap ولا في Yato adapter`);
 }
 
 module.exports = { handleMessages, processMessage, parseCommand, getMessageText, getSender };
