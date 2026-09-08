@@ -65,13 +65,14 @@ function getSender(message, sock) {
 
 /**
  * تقسيم الأمر إلى: prefix, command, args, query
+ * ملاحظة: يدعم الأوامر العربية (وأي حروف Unicode) بالإضافة للإنجليزية
  */
 function parseCommand(body, prefix) {
     if (!body || !body.startsWith(prefix)) return null;
     const stripped = body.slice(prefix.length).trim();
     if (!stripped) return null;
     const parts = stripped.split(/\s+/);
-    const command = (parts.shift() || '').toLowerCase().replace(/[^a-z0-9_-]/g, '');
+    const command = (parts.shift() || '').toLowerCase().replace(/[^\p{L}\p{N}_-]/gu, '');
     const args = parts;
     const query = parts.join(' ');
     return { command, args, query };
