@@ -270,27 +270,3 @@ Send `.update` to check for and apply the latest version from GitHub. Your sessi
 </p>
 
 <p align="center">Made with love in Ghana by Hector Manuel</p>
-
-
-## ★ بلوجنات Rimuru MD المدمجة (تحميل + ألعاب)
-
-تم دمج **126 بلوجن** من Rimuru MD v4.6 (النسخة العربية) — المالك: **ShowyWharf27322**
-
-### 🆕 ما الجديد في الإصدار 1.1.0-ar
-- **القائمة الكاملة**: كل الأوامر الجديدة ظاهرة الآن في `.help` — قسم **📥 التحميل (56 أمراً)** وقسم **🎮 الألعاب (82 أمراً)**
-- **عدّاد الأوامر**: ترويسة القائمة تعرض العدد الكلي للأوامر المتاحة
-- **توحيد الفئات**: أي فئة غير معروفة تُحوَّل تلقائياً لأقرب فئة معروفة — لن تختفي أوامر من القائمة مستقبلاً
-- **إصلاح التعارضات**: كل أمر أساسي يظهر في القائمة بدون استثناء
-
-### 📥 أوامر التحميل (56 أمراً — تجريها بـ .help download)
-`.aio` `.aio2` `.alightmotiondl` `.apkmirror` `.applemusic` `.bili` `.capcutdl` `.cocofundl` `.dailymotiondl` `.dlit` `.dlstatus` `.douyindl` `.facebook` `.facebookdl` `.gdrive` `.gimage` `.githubdl` `.ig3` `.igaudio` `.instagram` `.instagramdl` `.likeedl` `.mcpedldl` `.mediafire` `.mediafiredl` `.pindl` `.pindl2` `.pinterest` `.pixeldraindl` `.play` `.play2` `.playvid` `.reddit` `.rednotedl` `.sfiledl` `.shopeedl` `.snackvideodl` `.snapchat` `.soundcloudplay` `.spotifydl` `.spotifyplay` `.terabox` `.threaddl` `.tiktok` `.tiktok2` `.tiktokmusic` `.ttimg` `.twitter` `.videy` `.wallpaper` `.xhs` `.xnxx` `.yt5so` `.ytmp3` `.ytplay` `.yts`
-
-### 🎮 أوامر الألعاب (82 أمراً — تجريها بـ .help games)
-`.akinator` `.answer` `.asahotak` `.attack` `.blackjack` `.bomb` `.caklontong` `.catur` `.cerdascermat` `.checkers` `.dare` `.dungeon` `.endquiz` `.family100` `.fisht` `.genshinprofile` `.guess` `.hangman` `.kataacak` `.kuis` `.kyubigame` `.lengkapikalimat` `.maths` `.mct` `.mlbb` `.move` `.perangsarung` `.qa` `.quiz` `.riddle` `.sambungkata` `.siapakahaku` `.slot` `.sonik` `.suitpvp` `.surrender` `.survival` `.susunkata` `.tebakanime` `.tebakbendera` `.tebakbola` `.tebakdrakor` `.tebakepep` `.tebakff` `.tebakfilm` `.tebakgambar` `.tebakgame` `.tebakhewan` `.tebakhp` `.tebakjkt` `.tebakjkt48` `.tebakkalimat` `.tebakkartun` `.tebakkata` `.tebakkata2` `.tebakkimia` `.tebaklagu` `.tebaklirik` `.tebaklogo` `.tebakmakanan` `.tebaknegara` `.tebakprofesi` `.tebakprovinsi` `.tebaksurah` `.tebaktebakan` `.tebakwarna` `.tekateki` `.togel` `.trivia` `.truth` `.truthordare` `.ttt` `.ulartangga` `.war` `.wcg` `.werewolf` `.wwkill` `.wwprotect` `.wwsee` `.wwsorcerer` `.xo` `.xo2`
-
-### ملاحظات تقنية
-- كود Rimuru الأصلي يعمل عبر جسر توافق: `lib/rimuru-bridge.js` + نواة معزولة في `rimuru_core/`
-- إجابات الألعاب (الرسائل بدون أمر) تُوجَّه تلقائياً لمعالجات الألعاب النشطة
-- قاعدة بيانات Rimuru معزولة في `rimuru_core/database/` ولا تتعارض مع بيانات Queen
-- الأوامر المتضاربة مع بلوجنات Queen الأصلية بقيت لصالح Queen (مثل `.play` و`.facebook`)
-- ميزة `.gdrive` تحتاج إدخال مفتاح Google API الخاص بك في `rimuru_core/plugins/download/googledrive.mjs`

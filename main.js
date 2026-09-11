@@ -240,19 +240,7 @@ async function processMessage(sock, message, sessionNumber) {
         return;
     }
 
-        // ── توجيه إجابات ألعاب Rimuru (رسائل بدون أمر) ──────────────
-    try {
-        const { routeAnswer } = require('./lib/rimuru-bridge');
-        const handled = await routeAnswer(sock, chatId, message, body);
-        if (handled) {
-            console.log('[cmd] عولجت كإجابة لعبة Rimuru');
-            return;
-        }
-    } catch (rimuruErr) {
-        console.error('[cmd] خطأ في توجيه إجابات Rimuru:', rimuruErr.message);
-    }
-
-console.log(`[cmd] الأمر "${command}" غير موجود في pluginMap ولا في Yato adapter`);
+    console.log(`[cmd] الأمر "${command}" غير موجود في pluginMap ولا في Yato adapter`);
 }
 
 module.exports = { handleMessages, processMessage, parseCommand, getMessageText, getSender };

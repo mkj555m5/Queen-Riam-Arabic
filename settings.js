@@ -11,7 +11,7 @@ const settings = {
   packname:    process.env.PACK_NAME    || 'Queen Riam',
   author:      process.env.PACK_AUTHOR  || '@ShowyWharf27322',
   description: 'بوت واتساب عربي لإدارة المجموعات والأوامر.',
-  version:     '1.1.0-ar',
+  version:     '1.0.0-ar',
 
   // ── المالك والجلسة ───────────────────────────────────────────────────────────
   // رقم المالك بصيغة دولية بدون + أو مسافات
