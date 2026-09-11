@@ -66,7 +66,7 @@ const { bot } = require('../lib/pluginLoader');
 
 bot({
   command: ['ytplay'],
-  description: 'تشغيل فيديو يوتيوب',
+  description: 'تحميل الصوت من يوتيوب بجودة عالية',
   category: 'download',
 }, async (sock, chatId, message, args, query) => {
   await ytplayCommand(sock, chatId, query, message);
