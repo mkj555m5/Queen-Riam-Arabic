@@ -7,7 +7,7 @@ const { bot } = require('../lib/pluginLoader');
 bot({
     command: ["togel", "angka", "stoptogel"],
     description: "togel",
-    category: 'game',
+    category: 'games',
 }, async (sock, chatId, message, args, query) => {
     await runPlugin("plugins/game/togel.mjs", sock, chatId, message, args, query, '');
 });

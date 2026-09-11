@@ -7,7 +7,7 @@ const { bot } = require('../lib/pluginLoader');
 bot({
     command: ["mct", "minecraft"],
     description: "Minecraft - Mining & Crafting Game",
-    category: 'game',
+    category: 'games',
 }, async (sock, chatId, message, args, query) => {
     await runPlugin("plugins/game/minecraft.mjs", sock, chatId, message, args, query, '');
 });

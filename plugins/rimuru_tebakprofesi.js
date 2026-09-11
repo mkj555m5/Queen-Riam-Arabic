@@ -7,7 +7,7 @@ const { bot } = require('../lib/pluginLoader');
 bot({
     command: ["tebakprofesi", "tp", "guessjob"],
     description: "خمّن اسم المهنة",
-    category: 'game',
+    category: 'games',
 }, async (sock, chatId, message, args, query) => {
     await runPlugin("plugins/game/tebakprofesi.mjs", sock, chatId, message, args, query, '');
 });

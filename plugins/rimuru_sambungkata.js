@@ -7,7 +7,7 @@ const { bot } = require('../lib/pluginLoader');
 bot({
     command: ["sambungkata", "skata", "sambungkat", "wordchain"],
     description: "لعبة وصل الكلمات من آخر حرف بالكلمة السابقة — خاصة من Ai~! ⭐",
-    category: 'game',
+    category: 'games',
 }, async (sock, chatId, message, args, query) => {
     await runPlugin("plugins/game/sambungkata.mjs", sock, chatId, message, args, query, '');
 });

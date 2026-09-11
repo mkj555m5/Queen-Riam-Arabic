@@ -7,7 +7,7 @@ const { bot } = require('../lib/pluginLoader');
 bot({
     command: ["wwkill", "wolfkill", "wk"],
     description: "حركة المستذئب ليلاً - اقتل الهدف",
-    category: 'game',
+    category: 'games',
 }, async (sock, chatId, message, args, query) => {
     await runPlugin("plugins/game/wwkill.mjs", sock, chatId, message, args, query, '');
 });

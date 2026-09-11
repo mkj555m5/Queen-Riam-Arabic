@@ -7,7 +7,7 @@ const { bot } = require('../lib/pluginLoader');
 bot({
     command: ["tebakkata2"],
     description: "خمّن الكلمة (حرفاً بحرف)",
-    category: 'game',
+    category: 'games',
 }, async (sock, chatId, message, args, query) => {
     await runPlugin("plugins/game/hangman.mjs", sock, chatId, message, args, query, '');
 });

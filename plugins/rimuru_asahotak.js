@@ -7,7 +7,7 @@ const { bot } = require('../lib/pluginLoader');
 bot({
     command: ["asahotak", "asah"],
     description: "لعبة صقل العقل - خمّن الجواب",
-    category: 'game',
+    category: 'games',
 }, async (sock, chatId, message, args, query) => {
     await runPlugin("plugins/game/asahotak.mjs", sock, chatId, message, args, query, '');
 });

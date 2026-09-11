@@ -7,7 +7,7 @@ const { bot } = require('../lib/pluginLoader');
 bot({
     command: ["lengkapikalimat"],
     description: "lengkapikalimat",
-    category: 'game',
+    category: 'games',
 }, async (sock, chatId, message, args, query) => {
     await runPlugin("plugins/game/lengkapikalimat.mjs", sock, chatId, message, args, query, '');
 });

@@ -7,7 +7,7 @@ const { bot } = require('../lib/pluginLoader');
 bot({
     command: ["wwsorcerer", "sorcerer", "wws"],
     description: "حركة الساحر ليلاً - تحقق إن كان الهدف عرافاً",
-    category: 'game',
+    category: 'games',
 }, async (sock, chatId, message, args, query) => {
     await runPlugin("plugins/game/wwsorcerer.mjs", sock, chatId, message, args, query, '');
 });

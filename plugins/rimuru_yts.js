@@ -7,7 +7,7 @@ const { bot } = require('../lib/pluginLoader');
 bot({
     command: ["yts", "youtubesearch"],
     description: "yts",
-    category: 'search',
+    category: 'download',
 }, async (sock, chatId, message, args, query) => {
     await runPlugin("plugins/download/yts.mjs", sock, chatId, message, args, query, '');
 });

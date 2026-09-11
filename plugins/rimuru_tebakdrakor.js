@@ -7,7 +7,7 @@ const { bot } = require('../lib/pluginLoader');
 bot({
     command: ["tebakdrakor", "drakor", "kdrama"],
     description: "خمّن عنوان دراما كورية",
-    category: 'game',
+    category: 'games',
 }, async (sock, chatId, message, args, query) => {
     await runPlugin("plugins/game/tebakdrakor.mjs", sock, chatId, message, args, query, '');
 });

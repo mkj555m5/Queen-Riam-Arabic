@@ -7,7 +7,7 @@ const { bot } = require('../lib/pluginLoader');
 bot({
     command: ["susunkata", "susun", "scramble"],
     description: "رتّب الكلمة من الحروف",
-    category: 'game',
+    category: 'games',
 }, async (sock, chatId, message, args, query) => {
     await runPlugin("plugins/game/susunkata.mjs", sock, chatId, message, args, query, '');
 });

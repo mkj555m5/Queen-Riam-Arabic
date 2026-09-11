@@ -7,7 +7,7 @@ const { bot } = require('../lib/pluginLoader');
 bot({
     command: ["gimage", "googleimage", "image"],
     description: "Mencari dan mendownload gambar dari Google",
-    category: 'downloads',
+    category: 'download',
 }, async (sock, chatId, message, args, query) => {
     await runPlugin("plugins/downloads/gimage.mjs", sock, chatId, message, args, query, '');
 });

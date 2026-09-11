@@ -7,7 +7,7 @@ const { bot } = require('../lib/pluginLoader');
 bot({
     command: ["tebakprovinsi", "tprovinsi", "tebakprov", "provinsi"],
     description: "خمّن اسم المقاطعة من عاصمتها",
-    category: 'game',
+    category: 'games',
 }, async (sock, chatId, message, args, query) => {
     await runPlugin("plugins/game/tebakprovinsi.mjs", sock, chatId, message, args, query, '');
 });

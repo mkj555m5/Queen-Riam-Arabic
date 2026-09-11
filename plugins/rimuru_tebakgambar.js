@@ -7,7 +7,7 @@ const { bot } = require('../lib/pluginLoader');
 bot({
     command: ["tebakgambar", "guessimage"],
     description: "خمّن الكلمة من الصورة",
-    category: 'game',
+    category: 'games',
 }, async (sock, chatId, message, args, query) => {
     await runPlugin("plugins/game/tebakgambar.mjs", sock, chatId, message, args, query, '');
 });

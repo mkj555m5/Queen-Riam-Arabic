@@ -7,7 +7,7 @@ const { bot } = require('../lib/pluginLoader');
 bot({
     command: ["suitpvp", "suit", "rps", "janken"],
     description: "العب حجر-مقص-ورقة مع لاعب آخر",
-    category: 'game',
+    category: 'games',
 }, async (sock, chatId, message, args, query) => {
     await runPlugin("plugins/game/suitpvp.mjs", sock, chatId, message, args, query, '');
 });

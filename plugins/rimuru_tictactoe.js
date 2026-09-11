@@ -7,7 +7,7 @@ const { bot } = require('../lib/pluginLoader');
 bot({
     command: ["xo"],
     description: "العب إكس-أو مع لاعب آخر",
-    category: 'game',
+    category: 'games',
 }, async (sock, chatId, message, args, query) => {
     await runPlugin("plugins/game/tictactoe.mjs", sock, chatId, message, args, query, '');
 });

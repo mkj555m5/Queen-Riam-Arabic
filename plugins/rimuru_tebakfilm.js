@@ -7,7 +7,7 @@ const { bot } = require('../lib/pluginLoader');
 bot({
     command: ["tebakfilm", "tf", "guessmovie"],
     description: "خمّن عنوان الفيلم",
-    category: 'game',
+    category: 'games',
 }, async (sock, chatId, message, args, query) => {
     await runPlugin("plugins/game/tebakfilm.mjs", sock, chatId, message, args, query, '');
 });

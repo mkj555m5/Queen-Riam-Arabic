@@ -7,7 +7,7 @@ const { bot } = require('../lib/pluginLoader');
 bot({
     command: ["tekateki", "teka"],
     description: "لعبة ألغاز تقليدية",
-    category: 'game',
+    category: 'games',
 }, async (sock, chatId, message, args, query) => {
     await runPlugin("plugins/game/tekateki.mjs", sock, chatId, message, args, query, '');
 });

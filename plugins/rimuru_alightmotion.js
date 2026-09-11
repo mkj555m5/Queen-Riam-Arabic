@@ -7,7 +7,7 @@ const { bot } = require('../lib/pluginLoader');
 bot({
     command: ["alightmotiondl", "alightmotion", "amdl"],
     description: "Download project/preset Alight Motion",
-    category: 'downloader',
+    category: 'download',
 }, async (sock, chatId, message, args, query) => {
     await runPlugin("plugins/download/alightmotion.mjs", sock, chatId, message, args, query, '');
 });

@@ -7,7 +7,7 @@ const { bot } = require('../lib/pluginLoader');
 bot({
     command: ["wwprotect", "protect", "guardian", "wpr"],
     description: "حركة الحارس ليلاً - احمِ الهدف",
-    category: 'game',
+    category: 'games',
 }, async (sock, chatId, message, args, query) => {
     await runPlugin("plugins/game/wwprotect.mjs", sock, chatId, message, args, query, '');
 });

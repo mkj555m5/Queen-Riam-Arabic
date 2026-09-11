@@ -7,7 +7,7 @@ const { bot } = require('../lib/pluginLoader');
 bot({
     command: ["tebakbendera", "tbendera", "flag"],
     description: "خمّن الدولة من العلم",
-    category: 'game',
+    category: 'games',
 }, async (sock, chatId, message, args, query) => {
     await runPlugin("plugins/game/tebakbendera.mjs", sock, chatId, message, args, query, '');
 });

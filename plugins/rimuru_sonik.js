@@ -7,7 +7,7 @@ const { bot } = require('../lib/pluginLoader');
 bot({
     command: ["sonik", "dash", "speedy", "speeddash"],
     description: "Inline Speedy Dash game",
-    category: 'game',
+    category: 'games',
 }, async (sock, chatId, message, args, query) => {
     await runPlugin("plugins/game/sonik.mjs", sock, chatId, message, args, query, '');
 });

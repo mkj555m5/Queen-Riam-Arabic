@@ -7,7 +7,7 @@ const { bot } = require('../lib/pluginLoader');
 bot({
     command: ["kuis"],
     description: "أسئلة معلومات عامة",
-    category: 'game',
+    category: 'games',
 }, async (sock, chatId, message, args, query) => {
     await runPlugin("plugins/game/trivia.mjs", sock, chatId, message, args, query, '');
 });

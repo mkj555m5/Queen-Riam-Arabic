@@ -7,7 +7,7 @@ const { bot } = require('../lib/pluginLoader');
 bot({
     command: ["mcpedldl", "dlmcpedl", "mcpedldownload", "mcdl"],
     description: "Mengunduh file atau mengambil detail dari MCPEDL",
-    category: 'downloader',
+    category: 'download',
 }, async (sock, chatId, message, args, query) => {
     await runPlugin("plugins/downloader/mcpedldl.mjs", sock, chatId, message, args, query, '');
 });

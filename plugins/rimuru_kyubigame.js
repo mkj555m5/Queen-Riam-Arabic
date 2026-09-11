@@ -7,7 +7,7 @@ const { bot } = require('../lib/pluginLoader');
 bot({
     command: ["kyubigame", "kyubi", "naruto", "shinobi"],
     description: "استكشف عالم الشينوبي وواجه أقوى أعداء النينجا",
-    category: 'game',
+    category: 'games',
 }, async (sock, chatId, message, args, query) => {
     await runPlugin("plugins/game/kyubigame.mjs", sock, chatId, message, args, query, '');
 });

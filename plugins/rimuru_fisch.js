@@ -7,7 +7,7 @@ const { bot } = require('../lib/pluginLoader');
 bot({
     command: ["fisht", "fishit"],
     description: "Fishit - Fishing Rod Game",
-    category: 'game',
+    category: 'games',
 }, async (sock, chatId, message, args, query) => {
     await runPlugin("plugins/game/fisch.mjs", sock, chatId, message, args, query, '');
 });

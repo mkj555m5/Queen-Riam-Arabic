@@ -7,7 +7,7 @@ const { bot } = require('../lib/pluginLoader');
 bot({
     command: ["genshinprofile"],
     description: "genshinprofile",
-    category: 'game',
+    category: 'games',
 }, async (sock, chatId, message, args, query) => {
     await runPlugin("plugins/game/genshinprofile.mjs", sock, chatId, message, args, query, '');
 });

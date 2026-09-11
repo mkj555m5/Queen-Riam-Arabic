@@ -7,7 +7,7 @@ const { bot } = require('../lib/pluginLoader');
 bot({
     command: ["tebakanime", "tebaknime", "guessanime"],
     description: "خمّن الأنمي من الوصف (يستهلك الحد اليومي)",
-    category: 'game',
+    category: 'games',
 }, async (sock, chatId, message, args, query) => {
     await runPlugin("plugins/game/tebakanime.mjs", sock, chatId, message, args, query, '');
 });

@@ -48,12 +48,34 @@ const CATEGORY_META = {
 
 const CATEGORY_ORDER = ['ai','download','fun','games','general','group','owner','photo','religion','text','tools'];
 
+// توحيد الفئات القادمة من البلوجنات (مثل بلوجنات Rimuru المنقولة)
+// أي فئة غير معروفة تُحوَّل تلقائياً إلى أقرب فئة معروفة حتى لا تختفي أوامر من القائمة
+const CATEGORY_ALIASES = {
+    game:       'games',
+    downloader: 'download',
+    downloads:  'download',
+    rpg:        'games',
+    search:     'download',
+    sticker:    'photo',
+    stickers:   'photo',
+    converter:  'tools',
+    utility:    'tools',
+    utilities:  'tools',
+    misc:       'general',
+    other:      'general',
+};
+
+function normalizeCategory(cat) {
+    const key = String(cat || 'general').toLowerCase().trim();
+    return CATEGORY_ALIASES[key] || (CATEGORY_META[key] ? key : 'general');
+}
+
 function getCommandsByCategory(categoryKey) {
     const seen  = new Set();
     const cmds  = [];
-    // إضافات Queen Riam الأصلية
+    // إضافات Queen Riam الأصلية + بلوجنات Rimuru المنقولة
     for (const [cmdName, { meta }] of pluginMap) {
-        if ((meta.category || 'general') !== categoryKey) continue;
+        if (normalizeCategory(meta.category) !== categoryKey) continue;
         if (meta.hidden) continue;
         const primary = Array.isArray(meta.command) ? meta.command[0] : meta.command;
         if (cmdName !== primary) continue;
@@ -72,7 +94,7 @@ function getCommandsByCategory(categoryKey) {
         const yatoAdapter = require('../lib/yatoAdapter');
         const yatoList = yatoAdapter.getYatoCommandList();
         for (const entry of yatoList) {
-            if (entry.category !== categoryKey) continue;
+            if (normalizeCategory(entry.category) !== categoryKey) continue;
             if (entry.hidden) continue;
             const normalized = String(entry.command || '').toLowerCase().trim();
             if (!normalized || seen.has(normalized)) continue;
@@ -81,6 +103,15 @@ function getCommandsByCategory(categoryKey) {
         }
     } catch (_) { /* adapter غير محمّل — تجاهل */ }
     return cmds;
+}
+
+// العدد الكلي للأوامر الظاهرة في القائمة (فريدة عبر كل الفئات)
+function countAllCommands() {
+    const total = new Set();
+    for (const key of CATEGORY_ORDER) {
+        for (const cmd of getCommandsByCategory(key)) total.add(cmd);
+    }
+    return total.size;
 }
 
 function getHeader() {
@@ -104,6 +135,7 @@ function getHeader() {
 *│ 🔄 ᴜᴘᴛɪᴍᴇ    : ${uptimeFormatted}*
 *│ 🌐 ᴛɪᴍᴇᴢᴏɴᴇ : ${settings.timezone}*
 *│ 🚀 ᴠᴇʀsɪᴏɴ   : ${settings.version}*
+*│ ⚡ ᴄᴍᴅs      : ${countAllCommands()}*
 *╰─────────⟢*`;
 }
 

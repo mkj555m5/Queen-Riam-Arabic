@@ -7,7 +7,7 @@ const { bot } = require('../lib/pluginLoader');
 bot({
     command: ["wwsee", "seer", "vision", "wse"],
     description: "حركة العرّاف ليلاً - اطّلع على دور الهدف",
-    category: 'game',
+    category: 'games',
 }, async (sock, chatId, message, args, query) => {
     await runPlugin("plugins/game/wwsee.mjs", sock, chatId, message, args, query, '');
 });

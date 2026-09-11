@@ -7,7 +7,7 @@ const { bot } = require('../lib/pluginLoader');
 bot({
     command: ["aio", "allinone", "download", "dl"],
     description: "All in one downloader (IG, TikTok, FB, Twitter, YouTube, Pinterest, CapCut, dll)",
-    category: 'downloader',
+    category: 'download',
 }, async (sock, chatId, message, args, query) => {
     await runPlugin("plugins/download/aio.mjs", sock, chatId, message, args, query, '');
 });

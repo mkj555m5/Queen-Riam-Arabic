@@ -7,7 +7,7 @@ const { bot } = require('../lib/pluginLoader');
 bot({
     command: ["riddle", "rd", "tebaktebak", "riddles"],
     description: "ألغاز وأسئلة تخمين",
-    category: 'game',
+    category: 'games',
 }, async (sock, chatId, message, args, query) => {
     await runPlugin("plugins/game/riddle.mjs", sock, chatId, message, args, query, '');
 });

@@ -7,7 +7,7 @@ const { bot } = require('../lib/pluginLoader');
 bot({
     command: ["tebakkalimat", "tkl", "peribahasa"],
     description: "خمّن الجملة أو المثل",
-    category: 'game',
+    category: 'games',
 }, async (sock, chatId, message, args, query) => {
     await runPlugin("plugins/game/tebakkalimat.mjs", sock, chatId, message, args, query, '');
 });

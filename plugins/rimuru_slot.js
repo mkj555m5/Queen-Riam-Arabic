@@ -7,7 +7,7 @@ const { bot } = require('../lib/pluginLoader');
 bot({
     command: ["slot", "slots", "mesin", "mesinslot"],
     description: "Inline Fruit Bonanza slot game",
-    category: 'game',
+    category: 'games',
 }, async (sock, chatId, message, args, query) => {
     await runPlugin("plugins/game/slot.mjs", sock, chatId, message, args, query, '');
 });

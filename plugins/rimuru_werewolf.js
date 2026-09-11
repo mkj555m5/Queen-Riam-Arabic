@@ -7,7 +7,7 @@ const { bot } = require('../lib/pluginLoader');
 bot({
     command: ["werewolf", "ww", "wwgc"],
     description: "العب لعبة المستذئب مع لاعبين آخرين",
-    category: 'game',
+    category: 'games',
 }, async (sock, chatId, message, args, query) => {
     await runPlugin("plugins/game/werewolf.mjs", sock, chatId, message, args, query, '');
 });

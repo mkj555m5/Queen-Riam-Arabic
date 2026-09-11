@@ -5,7 +5,7 @@ const { runPlugin } = require('../lib/rimuru-bridge');
 const { bot } = require('../lib/pluginLoader');
 
 bot({
-    command: ["mediafiredl", "mfdl", "mediafire", "mf"],
+    command: ["mediafiredl", "mfdl"],
     description: "Download file dari MediaFire",
     category: 'download',
 }, async (sock, chatId, message, args, query) => {

@@ -7,7 +7,7 @@ const { bot } = require('../lib/pluginLoader');
 bot({
     command: ["caklontong", "cak", "lontong"],
     description: "لعبة كاك لونتون - إجابات مرحة",
-    category: 'game',
+    category: 'games',
 }, async (sock, chatId, message, args, query) => {
     await runPlugin("plugins/game/caklontong.mjs", sock, chatId, message, args, query, '');
 });

@@ -7,7 +7,7 @@ const { bot } = require('../lib/pluginLoader');
 bot({
     command: ["ulartangga", "ut", "snakeladder", "sl"],
     description: "العب الثعبان والسلم مع لاعبين آخرين بلوحة مرئية",
-    category: 'game',
+    category: 'games',
 }, async (sock, chatId, message, args, query) => {
     await runPlugin("plugins/game/ulartangga.mjs", sock, chatId, message, args, query, '');
 });

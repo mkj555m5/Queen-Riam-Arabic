@@ -7,7 +7,7 @@ const { bot } = require('../lib/pluginLoader');
 bot({
     command: ["tebaknegara", "tn", "guesscountry"],
     description: "خمّن اسم الدولة",
-    category: 'game',
+    category: 'games',
 }, async (sock, chatId, message, args, query) => {
     await runPlugin("plugins/game/tebaknegara.mjs", sock, chatId, message, args, query, '');
 });

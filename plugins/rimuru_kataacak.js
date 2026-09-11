@@ -7,7 +7,7 @@ const { bot } = require('../lib/pluginLoader');
 bot({
     command: ["kataacak", "ka", "acakkata"],
     description: "رتّب الحروف العشوائية",
-    category: 'game',
+    category: 'games',
 }, async (sock, chatId, message, args, query) => {
     await runPlugin("plugins/game/kataacak.mjs", sock, chatId, message, args, query, '');
 });

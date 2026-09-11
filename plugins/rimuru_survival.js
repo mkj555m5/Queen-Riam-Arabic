@@ -7,7 +7,7 @@ const { bot } = require('../lib/pluginLoader');
 bot({
     command: ["survival", "sv"],
     description: "survival",
-    category: 'rpg',
+    category: 'games',
 }, async (sock, chatId, message, args, query) => {
     await runPlugin("plugins/game/survival.mjs", sock, chatId, message, args, query, '');
 });

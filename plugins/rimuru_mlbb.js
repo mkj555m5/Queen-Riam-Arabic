@@ -7,7 +7,7 @@ const { bot } = require('../lib/pluginLoader');
 bot({
     command: ["mlbb", "mlbbcounter", "mlsynergy", "mltier", "mlmatchup"],
     description: "معلومات MLBB: توصيات الكاونتر، تآزر الأبطال، توقعات المباريات وقائمة التصنيفات",
-    category: 'game',
+    category: 'games',
 }, async (sock, chatId, message, args, query) => {
     await runPlugin("plugins/game/mlbb.mjs", sock, chatId, message, args, query, '');
 });

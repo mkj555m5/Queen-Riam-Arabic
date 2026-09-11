@@ -7,7 +7,7 @@ const { bot } = require('../lib/pluginLoader');
 bot({
     command: ["tebakkimia", "kimia", "chemistry", "unsur"],
     description: "خمّن العنصر الكيميائي",
-    category: 'game',
+    category: 'games',
 }, async (sock, chatId, message, args, query) => {
     await runPlugin("plugins/game/tebakkimia.mjs", sock, chatId, message, args, query, '');
 });
