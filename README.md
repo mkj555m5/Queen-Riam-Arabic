@@ -270,3 +270,20 @@ Send `.update` to check for and apply the latest version from GitHub. Your sessi
 </p>
 
 <p align="center">Made with love in Ghana by Hector Manuel</p>
+
+
+## ★ بلوجنات Rimuru MD المدمجة (تحميل + ألعاب)
+
+تم دمج **126 بلوجن** من Rimuru MD v4.6 (النسخة العربية) — المالك: **ShowyWharf27322**
+
+### أوامر التحميل الجديدة
+`.tiktokdl` `.tiktokdl2` `.ttmp3` `.ytmp3` `.ytmp4` `.yts` `.mediafire` `.mediafiredl` `.terabox` `.aio` `.aio2` `.spotifydl` `.soundcloud` `.instagramdl` `.igdl3` `.facebookdl` `.twitter` `.pindl` `.threaddl` `.capcutdl` `.douyindl` `.likeedl` `.snackvideodl` `.shopeedl` `.rednotedl` `.xhs` `.gdrive` `.gitclone` `.githubdl` `.applemusic` `.bilibili` `.cocofundl` `.dailymotiondl` `.pixeldraindl` `.sfile` `.videy` `.alightmotiondl` `.mcpedldl` `.gimage` `.yt5so` وأكثر...
+
+### الألعاب الجديدة
+`.family100` `.slot` `.blackjack` `.suitpvp` `.catur` `.dungeon` `.minecraft` `.fishit` `.akinator` `.werewolf` `.ulartangga` `.sambungkata` `.survival` `.tebakgambar` `.tebakkata` `.tebaklagu` `.tebaklirik` `.tebakkimia` `.tebakbendera` `.tebaknegara` `.tebakgame` `.tekateki` `.riddle` `.maths` `.truthordare` `.susunkata` `.siapakahaku` `.asahotak` `.caklontong` `.kataacak` وأكثر...
+
+### ملاحظات تقنية
+- كود Rimuru الأصلي يعمل عبر جسر توافق: `lib/rimuru-bridge.js` + نواة معزولة في `rimuru_core/`
+- إجابات الألعاب (الرسائل بدون أمر) تُوجَّه تلقائياً لمعالجات الألعاب النشطة
+- قاعدة بيانات Rimuru معزولة في `rimuru_core/database/` ولا تتعارض مع بيانات Queen
+- الأوامر المتضاربة مع بلوجنات Queen الأصلية بقيت لصالح Queen (مثل `.play` و`.facebook`)

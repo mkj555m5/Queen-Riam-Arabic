@@ -38,3 +38,8 @@ temp/
 # Build output
 dist/
 build/
+
+# Rimuru core runtime state (sessions & local database)
+rimuru_core/database/
+rimuru_core/session*/
+rimuru_core/*.session
