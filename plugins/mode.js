@@ -1,3 +1,4 @@
+const __qrPaths = require('../lib/paths'); const __qrDataFile = __qrPaths.dataFile;
 const { bot } = require('../lib/pluginLoader');
 const { hasOwnerPrivileges } = require('./sudo');
 
@@ -9,7 +10,7 @@ bot({
   category: 'owner',
 }, async (sock, chatId, message, args, query, ctx) => {
   if (!hasOwnerPrivileges(ctx.senderId, message, sock.user?.id, ctx.sessionNumber)) { await sock.sendMessage(chatId, { text: 'للمالك فقط!' }); return; }
-  const mcPath = ctx.sessionNumber ? './data/messageCount_' + ctx.sessionNumber + '.json' : './data/messageCount.json';
+  const mcPath = ctx.sessionNumber ? __qrDataFile('messageCount_' + ctx.sessionNumber + '.json') : __qrDataFile('messageCount.json');
   let data;
   try { data = JSON.parse(fs.readFileSync(mcPath)); }
   catch { await sock.sendMessage(chatId, { text: 'فشل في قراءة وضع البوت.' }); return; }

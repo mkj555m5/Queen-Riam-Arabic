@@ -1,3 +1,4 @@
+const __qrPaths = require('../lib/paths');
 // Migrated from commands/autoreply.js
 
 const fs   = require('fs');
@@ -5,7 +6,7 @@ const path = require('path');
 const moment = require('moment-timezone');
 
 const { getLang } = require('../lib/lang');
-const DATA_DIR    = path.join(process.cwd(), 'data');
+const DATA_DIR    = __qrPaths.DATA_DIR;
 function _arConfig(sock){const sid=sock&&sock._sessionNumber?sock._sessionNumber:null;return sid?path.join(DATA_DIR,'autoreply_'+sid+'.json'):path.join(DATA_DIR,'autoreply.json');}
 function _arImage(sock){const sid=sock&&sock._sessionNumber?sock._sessionNumber:null;return sid?path.join(DATA_DIR,'autoreply_image_'+sid+'.jpg'):path.join(DATA_DIR,'autoreply_image.jpg');}
 

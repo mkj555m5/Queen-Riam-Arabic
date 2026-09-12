@@ -1,10 +1,11 @@
+const __qrPaths = require('../lib/paths'); const __qrDataFile = __qrPaths.dataFile;
 // Migrated from commands/unban.js
 
 const fs = require('fs');
 const path = require('path');
 
 const { getLang } = require('../lib/lang');
-function _bannedFile(sock){const sid=sock&&sock._sessionNumber?sock._sessionNumber:null;return require('path').join(__dirname,sid?'../data/banned_'+sid+'.json':'../data/banned.json');}
+function _bannedFile(sock){const sid=sock&&sock._sessionNumber?sock._sessionNumber:null;return sid?__qrDataFile('banned_'+sid+'.json'):__qrDataFile('banned.json');}
 
 async function unbanCommand(sock, chatId, message) {
     let userToUnban;

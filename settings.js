@@ -11,12 +11,15 @@ const settings = {
   packname:    process.env.PACK_NAME    || 'Queen Riam',
   author:      process.env.PACK_AUTHOR  || '@ShowyWharf27322',
   description: 'بوت واتساب عربي لإدارة المجموعات والأوامر — مع موقع ولوحة تحكم ويب.',
-  version:     '1.2.0-ar',
+  version:     '1.3.0-ar',
 
   // ── المالك والجلسة ───────────────────────────────────────────────────────────
   // رقم المالك بصيغة دولية بدون + أو مسافات
   // الربط يتم عبر الموقع (صفحة ربط البوت) — لا ربط تلقائي
   ownerNumber: (process.env.OWNER_NUMBER || '201270221253').replace(/[^0-9]/g, ''),
+
+  // كود الربط المخصص (8 أحرف بالضبط — شرط واتساب) — يستخدمه الموقع وأمر .pair
+  customPairingCode: (process.env.PAIRING_CODE || 'RIAMBOOT').toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 8) || 'RIAMBOOT',
 
   // ── موقع الويب ولوحة التحكم ────────────────────────────────────────────────
   // المنفذ: PORT تلقائياً على Railway، أو WEB_PORT محلياً (افتراضي 3000)

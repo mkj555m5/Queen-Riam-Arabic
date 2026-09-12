@@ -1,10 +1,11 @@
+const __qrPaths = require('../lib/paths'); const __qrDataFile = __qrPaths.dataFile;
 // Migrated from commands/warnings.js
 
 const fs = require('fs');
 const path = require('path');
 
 const { getLang } = require('../lib/lang');
-function _warningsFile(sock){const sid=sock&&sock._sessionNumber?sock._sessionNumber:null;return sid?require('path').join(__dirname,'../data/warnings_'+sid+'.json'):require('path').join(__dirname,'../data/warnings.json');}
+function _warningsFile(sock){const sid=sock&&sock._sessionNumber?sock._sessionNumber:null;return sid?__qrDataFile('warnings_'+sid+'.json'):__qrDataFile('warnings.json');}
 
 function loadWarnings(sock) {
     const f=_warningsFile(sock);

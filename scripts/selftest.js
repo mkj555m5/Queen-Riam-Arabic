@@ -48,7 +48,7 @@ function check(name, fn) {
     // ═══════════ 2) تحميل الوحدات ═══════════
     console.log('\n── 2) تحميل الوحدات ──');
     const settings = require(path.join(ROOT, 'settings.js'));
-    check('settings يحمّل', () => settings.version === '1.2.0-ar');
+    check('settings يحمّل', () => settings.version === '1.3.0-ar');
     check('ownerNumber صحيح', () => settings.ownerNumber === '201270221253');
 
     const membership = require(path.join(ROOT, 'lib/membership.js'));
@@ -184,6 +184,10 @@ function check(name, fn) {
 
     // ═══════════ 9) الخادم + API كامل ═══════════
     console.log('\n── 9) الخادم و API ──');
+    // عزل الاختبار: محاكاة توليد كود الربط — بدون فتح اتصال واتساب حقيقي
+    // (بدون هذا يشغّل الاختبار عاملاً حقيقياً يطلب كوداً من واتساب)
+    const _sessionManager = require(path.join(ROOT, 'lib/sessionManager.js'));
+    _sessionManager.generatePairingCode = async () => 'RIAM-BOOT';
     const { startWebServer } = require(path.join(ROOT, 'web/server.js'));
     const server = await startWebServer(3777);
     check('الخادم يبدأ على 3777', () => server.listening);

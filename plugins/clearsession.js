@@ -3,7 +3,7 @@ const { hasOwnerPrivileges } = require('./sudo');
 
 const fs = require('fs');
 const path = require('path');
-const os = require('os');
+const paths = require('../lib/paths');
 
 const { getLang } = require('../lib/lang');
 
@@ -17,8 +17,9 @@ async function clearSessionCommand(sock, chatId, msg) {
             return;
         }
 
-        // Define session directory
-        const sessionDir = path.join(__dirname, '../session');
+        // جلسة هذا العامل نفسها (عزل العمليات — كل جلسة تنظف ملفاتها فقط)
+        const sessionDir = process.env.QR_WORKER_SESSION_DIR
+            || paths.sessionDirFor(sock._sessionNumber || '');
 
         if (!fs.existsSync(sessionDir)) {
             await sock.sendMessage(chatId, { 
@@ -33,7 +34,7 @@ async function clearSessionCommand(sock, chatId, msg) {
 
         // Send initial status
         await sock.sendMessage(chatId, { 
-            text: `🔍 Optimizing session files for better performance...`
+            text: `🔍 جاري تحسين ملفات الجلسة (+${sock._sessionNumber || 'الرئيسية'}) لأداء أفضل...`
         });
 
         const files = fs.readdirSync(sessionDir);
@@ -64,12 +65,12 @@ async function clearSessionCommand(sock, chatId, msg) {
         }
 
         // Send completion message
-        const message = `✅ Session files cleared successfully!\n\n` +
-                       `📊 Statistics:\n` +
-                       `• Total files cleared: ${filesCleared}\n` +
-                       `• App state sync files: ${appStateSyncCount}\n` +
-                       `• Pre-key files: ${preKeyCount}\n` +
-                       (errors > 0 ? `\n⚠️ Errors encountered: ${errors}\n${errorDetails.join('\n')}` : '');
+        const message = `✅ تم تنظيف ملفات الجلسة بنجاح!\n\n` +
+                       `📊 الإحصائيات:\n` +
+                       `• إجمالي الملفات الممسوحة: ${filesCleared}\n` +
+                       `• ملفات مزامنة الحالة: ${appStateSyncCount}\n` +
+                       `• ملفات Pre-key: ${preKeyCount}\n` +
+                       (errors > 0 ? `\n⚠️ أخطاء: ${errors}\n${errorDetails.join('\n')}` : '');
 
         await sock.sendMessage(chatId, { 
             text: message

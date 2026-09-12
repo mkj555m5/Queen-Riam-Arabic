@@ -1,3 +1,4 @@
+const __qrPaths = require('../lib/paths'); const __qrDataFile = __qrPaths.dataFile;
 // Migrated from commands/autostatus.js
 const { hasOwnerPrivileges } = require('./sudo');
 
@@ -9,7 +10,7 @@ const { getLang } = require('../lib/lang');
 // Session-aware config path
 function _asConfigPath(sock) {
     const sid = sock && sock._sessionNumber ? sock._sessionNumber : null;
-    return sid ? require('path').join(__dirname, '../data/autoStatus_' + sid + '.json') : require('path').join(__dirname, '../data/autoStatus.json');
+    return sid ? __qrDataFile('autoStatus_' + sid + '.json') : __qrDataFile('autoStatus.json');
 }
 
 // Load config safely

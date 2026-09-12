@@ -1,3 +1,4 @@
+const __qrPaths = require('../lib/paths');
 // Migrated from commands/warn.js
 
 const fs = require('fs');
@@ -5,7 +6,7 @@ const path = require('path');
 const isAdmin = require('../lib/isAdmin');
 const { getLang } = require('../lib/lang');
 
-const databaseDir = path.join(process.cwd(), 'data');
+const databaseDir = __qrPaths.DATA_DIR;
 function _warningsPath(sock){const sid=sock&&sock._sessionNumber?sock._sessionNumber:null;return sid?path.join(databaseDir,'warnings_'+sid+'.json'):path.join(databaseDir,'warnings.json');}
 function initializeWarningsFile(sock) {
     if (!fs.existsSync(databaseDir)) fs.mkdirSync(databaseDir, { recursive: true });

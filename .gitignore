@@ -46,3 +46,7 @@ data/site_settings.json
 
 # إعدادات الجلسات الفردية (تُنشأ عند التشغيل)
 data/config_*.json
+
+# جلسات واتساب (بيانات اعتماد — لا تُنشر أبداً)
+data/sessions/
+data/paired_users.json

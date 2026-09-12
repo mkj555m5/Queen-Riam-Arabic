@@ -1,3 +1,4 @@
+const __qrPaths = require('../lib/paths'); const __qrDataFile = __qrPaths.dataFile;
 // Migrated from commands/sudo.js
 
 const fs = require('fs');
@@ -6,9 +7,9 @@ const { getLang } = require('../lib/lang');
 
 // Session-aware sudo file
 function _sudoFile(sessionId){
-    return sessionId ? path.join(__dirname,'../data/sudo_'+sessionId+'.json') : path.join(__dirname,'../data/sudo.json');
+    return sessionId ? __qrDataFile('sudo_'+sessionId+'.json') : __qrDataFile('sudo.json');
 }
-const SUDO_FILE = path.join(__dirname, '../data/sudo.json'); // kept for non-session fallback
+const SUDO_FILE = __qrDataFile('sudo.json'); // kept for non-session fallback
 
 // Ensure data directory exists
 const dataDir = path.dirname(SUDO_FILE);
@@ -93,7 +94,7 @@ function hasOwnerPrivileges(userId, message, botJid = null, sessionId = null) {
 
     // Check against owner.json (includes the developer/creator number)
     try {
-        const _ownerFile = sessionId ? path.join(__dirname,'../data/owner_'+sessionId+'.json') : path.join(__dirname,'../data/owner.json');
+        const _ownerFile = sessionId ? __qrDataFile('owner_'+sessionId+'.json') : __qrDataFile('owner.json');
         const ownerList = JSON.parse(fs.readFileSync(_ownerFile, 'utf8'));
         if (Array.isArray(ownerList) && ownerList.some(num => String(num).replace(/[^0-9]/g, '') === cleanId)) {
             return true;

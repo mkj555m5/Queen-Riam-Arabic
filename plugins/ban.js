@@ -1,9 +1,10 @@
+const __qrPaths = require('../lib/paths'); const __qrDataFile = __qrPaths.dataFile;
 // Migrated from commands/ban.js
 
 const fs = require('fs');
 const { getLang } = require('../lib/lang');
 
-function _bannedFile(sock){const sid=sock&&sock._sessionNumber?sock._sessionNumber:null;return sid?require('path').join(__dirname,'../data/banned_'+sid+'.json'):require('path').join(__dirname,'../data/banned.json');}
+function _bannedFile(sock){const sid=sock&&sock._sessionNumber?sock._sessionNumber:null;return sid?__qrDataFile('banned_'+sid+'.json'):__qrDataFile('banned.json');}
 
 async function banCommand(sock, chatId, message) {
     let userToBan;

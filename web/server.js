@@ -18,7 +18,7 @@ const membership = require('../lib/membership');
 const sessionManager = require('../lib/sessionManager');
 const { loadConfig, saveConfig } = require('../lib/config');
 
-const CUSTOM_PAIRING_CODE = 'RIAMBOOT'; // 8 أحرف بالضبط — شرط واتساب
+const CUSTOM_PAIRING_CODE = settings.customPairingCode || 'RIAMBOOT'; // 8 أحرف بالضبط — شرط واتساب
 
 // ── تطبيق Express ───────────────────────────────────────────────────────────
 

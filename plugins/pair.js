@@ -14,8 +14,49 @@ const fs = require('fs');
 const path = require('path');
 const { hasOwnerPrivileges } = require('./sudo');
 const { getLang } = require('../lib/lang');
-const { generatePairingCode, getActiveSessions } = require('../lib/sessionManager');
 const { isButtonModeOn } = require('../lib/buttonHelper');
+const paths = require('../lib/paths');
+
+// ── معمارية العمليات المنفصلة ──────────────────────────────────────────────────
+// الإضافات تعمل داخل عامل الجلسة — طلبات إدارة الجلسات تمر عبر IPC للعملية الرئيسية
+const IN_WORKER = !!process.env.QR_WORKER_NUMBER && typeof process.send === 'function';
+
+function ipcRequest(msg, matchT, timeoutMs = 8000) {
+    return new Promise((resolve) => {
+        let done = false;
+        const cleanup = () => { if (!done) { done = true; try { process.removeListener('message', onMsg); } catch (_) {} } };
+        const onMsg = (m) => {
+            if (m && m.t === matchT && m.reqId === msg.reqId) { cleanup(); resolve(m); }
+        };
+        process.on('message', onMsg);
+        try { process.send(msg); } catch (_) { cleanup(); return resolve(null); }
+        setTimeout(() => { cleanup(); resolve(null); }, timeoutMs);
+    });
+}
+
+async function requestPairingViaMaster(number) {
+    const reqId = `pr-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+    const res = await ipcRequest({ t: 'pair-request', number, reqId }, 'pair-code-result', 90000);
+    return res || { code: null, error: 'انتهت مهلة طلب الربط من العملية الرئيسية' };
+}
+
+async function requestDestroySession(number) {
+    const reqId = `ds-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+    const res = await ipcRequest({ t: 'destroy-session', number, reqId }, 'destroy-session-result', 15000);
+    return !!(res && res.ok);
+}
+
+async function fetchActiveList() {
+    if (!IN_WORKER) {
+        try { return require('../lib/sessionManager').getActiveSessions(); } catch (_) { return []; }
+    }
+    const reqId = `sum-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+    const res = await ipcRequest({ t: 'sessions-summary-req', reqId }, 'sessions-summary');
+    if (res && res.summary && Array.isArray(res.summary.sessions)) {
+        return res.summary.sessions.filter((s) => s.connected || s.pending).map((s) => s.number);
+    }
+    return [];
+}
 
 let sendButtons;
 try {
@@ -95,18 +136,20 @@ function findPairedUser(identifier) {
     return null;
 }
 
-// ── إزالة مجلد الجلسة من السيرفر ──────────────────────────────────────────────
+// ── إزالة مجلد الجلسة من السيرفر (الجذر الدائم + المسار القديم) ──────────────────
 function deleteSessionDir(number) {
-    try {
-        const sessionDir = path.join(__dirname, '..', 'session', number);
-        if (fs.existsSync(sessionDir)) {
-            fs.rmSync(sessionDir, { recursive: true, force: true });
-            return true;
+    let deleted = false;
+    for (const dir of [paths.sessionDirFor(number), path.join(paths.LEGACY_SESSION_DIR, number)]) {
+        try {
+            if (fs.existsSync(dir)) {
+                fs.rmSync(dir, { recursive: true, force: true });
+                deleted = true;
+            }
+        } catch (err) {
+            console.error('[pair] deleteSessionDir error:', err.message);
         }
-    } catch (err) {
-        console.error('[pair] deleteSessionDir error:', err.message);
     }
-    return false;
+    return deleted;
 }
 
 // ── الأمر الرئيسي ──────────────────────────────────────────────────────────────
@@ -175,7 +218,35 @@ async function pairNewUser(sock, chatId, message, number, name) {
     }, { quoted: message });
 
     try {
-        const code = await generatePairingCode(number);
+        let code = null;
+        let pairError = null;
+
+        if (IN_WORKER) {
+            // داخل عامل — اطلب من العملية الرئيسية أن تُنشئ عامل ربط مستقل
+            const r = await requestPairingViaMaster(number);
+            code = r.code || null;
+            pairError = r.error || null;
+        } else {
+            try {
+                code = await require('../lib/sessionManager').generatePairingCode(number);
+            } catch (e) {
+                pairError = e.message;
+            }
+        }
+
+        if (pairError === 'ALREADY_ACTIVE') {
+            await sock.sendMessage(chatId, {
+                text: t.pair_already_active.replace('{number}', number),
+            }, { quoted: message });
+            return;
+        }
+        if (pairError) {
+            console.error('[pair] error:', pairError);
+            await sock.sendMessage(chatId, {
+                text: `❌ *فشل توليد رمز الربط*\n\n> السبب: ${pairError}`,
+            }, { quoted: message });
+            return;
+        }
 
         if (!code) {
             // الرقم مسجل بالفعل
@@ -231,16 +302,10 @@ async function pairNewUser(sock, chatId, message, number, name) {
             await sock.sendMessage(chatId, { text: fullResponse }, { quoted: message });
         }
     } catch (err) {
-        if (err.message === 'ALREADY_ACTIVE') {
-            await sock.sendMessage(chatId, {
-                text: t.pair_already_active.replace('{number}', number),
-            }, { quoted: message });
-        } else {
-            console.error('[pair] error:', err);
-            await sock.sendMessage(chatId, {
-                text: `❌ *فشل توليد رمز الربط*\n\n> السبب: ${err.message}`,
-            }, { quoted: message });
-        }
+        console.error('[pair] error:', err);
+        await sock.sendMessage(chatId, {
+            text: `❌ *فشل توليد رمز الربط*\n\n> السبب: ${err.message}`,
+        }, { quoted: message });
     }
 }
 
@@ -277,8 +342,14 @@ async function unpairUser(sock, chatId, message, identifier) {
     // احذف من قائمة المستخدمين
     const removedKey = removePairedUser(identifier) || removePairedUser(cleanId);
 
-    // احذف مجلد الجلسة
-    const sessionDeleted = deleteSessionDir(number);
+    // افصل الجلسة عبر العملية الرئيسية (تقتل العامل + تحذف المجلدات)
+    let sessionDeleted = false;
+    if (IN_WORKER) {
+        sessionDeleted = await requestDestroySession(number);
+        if (!sessionDeleted) sessionDeleted = deleteSessionDir(number);
+    } else {
+        sessionDeleted = deleteSessionDir(number);
+    }
 
     await sock.sendMessage(chatId, {
         text:
@@ -305,7 +376,7 @@ async function showPairedUsersList(sock, chatId, message) {
         return;
     }
 
-    const active = getActiveSessions();
+    const active = await fetchActiveList();
 
     let text = `👥 *المستخدمون المرتبطون* (${nums.length})\n\n`;
     nums.forEach((num, i) => {
@@ -332,7 +403,7 @@ async function showPairedUsersList(sock, chatId, message) {
 // ── عرض حالة الجلسات النشطة (مراقبة) ────────────────────────────────────────────
 async function showSessionsStatus(sock, chatId, message) {
     const users = loadPairedUsers();
-    const active = getActiveSessions();
+    const active = await fetchActiveList();
     const botId = sock.user?.id || '';
 
     if (active.length === 0) {

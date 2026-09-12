@@ -1,3 +1,4 @@
+const __qrPaths = require('../lib/paths');
 // Migrated from commands/chatbot.js
 
 const axios = require('axios');
@@ -6,7 +7,7 @@ const path = require('path');
 const settings = require('../settings');
 
 const { getLang } = require('../lib/lang');
-const DATA_DIR = path.join(process.cwd(), 'data');
+const DATA_DIR = __qrPaths.DATA_DIR;
 const _CHATBOT_CONFIG_BASE = path.join(DATA_DIR, 'chatbot.json');
 const _CHATBOT_HISTORY_BASE = path.join(DATA_DIR, 'chatbot_history.json');
 function _chatbotConfig(sock){const sid=sock&&sock._sessionNumber?sock._sessionNumber:null;return sid?path.join(DATA_DIR,'chatbot_'+sid+'.json'):_CHATBOT_CONFIG_BASE;}
