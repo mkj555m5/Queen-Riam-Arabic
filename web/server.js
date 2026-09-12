@@ -279,6 +279,9 @@ app.post('/api/link/resend-secret', rateLimit('resend', 4), async (req, res) => 
             return fail(res, 503, 'البوت غير متصل حالياً — لا يمكن إرسال الرمز الآن. حاول بعد لحظات.');
         }
 
+        // سجّل أن الرمز وصل فعلاً (يمنع إعادة الإرسال التلقائية عند إعادة الاتصال)
+        try { membership.markCodeDelivered(phone); } catch (_) {}
+
         res.json({ ok: true, message: 'تم إرسال رمز سري جديد إلى واتسابك ✅' });
     } catch (err) {
         console.error('[web] resend-secret error:', err);
@@ -563,6 +566,7 @@ app.post('/api/admin/users/reset-secret', requireAuth, requireOwner, async (req,
             `⚠️ لا تشاركه مع أي شخص.\n👑 _Queen Riam_`,
     });
     if (!sent) return fail(res, 503, 'تم توليد الرمز لكن تعذر الإرسال — البوت غير متصل حالياً.');
+    try { membership.markCodeDelivered(number); } catch (_) {}
     res.json({ ok: true, message: `تم إرسال رمز جديد إلى +${number} عبر واتساب ✅` });
 });
 
