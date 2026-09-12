@@ -166,9 +166,14 @@ function buildCategoryText(key, sock) {
 
     let text = `*『 ${cat.emoji} ${getCatTitle(key, sock)} ${getLang(sock).help_menu_suffix || 'Menu'} 』*\n`;
     for (const cmd of cmds) {
-        text += `*│ ⬡ ${cmd}*\n`;
+        // 💎 أوامر المالك/المميزين: متاحة للمالك دائماً وللأعضاء المميزين (عدا التحكم الكامل)
+        const diamond = key === 'owner' ? ' 💎' : '';
+        text += `*│ ⬡ ${cmd}${diamond}*\n`;
     }
     text += `*╰─────────⟢*`;
+    if (key === 'owner') {
+        text += `\n_💎 = للمالك والأعضاء المميزين (عدا sudo/pair/reloadplugins/update/clearsession — للمالك فقط)_`;
+    }
     return text;
 }
 

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ربط البوت | Queen Riam</title>
+    <meta name="description" content="اربط بوت Queen Riam برقم واتسابك — كود ربط مخصص RIAMBOOT">
+    <meta name="theme-color" content="#07050d">
+    <link rel="icon" type="image/webp" href="/assets/img/riam-avatar.webp">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Orbitron:wght@500;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+    <div class="bg-fx" aria-hidden="true"></div>
+
+    <nav class="navbar" aria-label="التنقل الرئيسي">
+        <div class="container nav-inner">
+            <a href="/" class="brand">
+                <img src="/assets/img/riam-avatar.webp" alt="شعار Queen Riam" class="brand-avatar">
+                <span>
+                    <span class="brand-name">QUEEN RIAM</span><br>
+                    <span class="brand-tag">WHATSAPP BOT · ARABIC</span>
+                </span>
+            </a>
+            <div class="nav-links">
+                <a href="/">الرئيسية</a>
+                <a href="/login">تسجيل الدخول</a>
+                <a href="/link" class="nav-cta active">🔗 ربط البوت</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="auth-wrap">
+        <div class="auth-card">
+            <div class="avatar-ring">
+                <img src="/assets/img/riam-avatar.webp" alt="صورة بروفايل Queen Riam">
+            </div>
+            <div class="auth-title">QUEEN RIAM</div>
+            <p class="auth-sub">اربط رقم واتساب ليصبح بوت Queen Riam 👑</p>
+
+            <div class="status-chip" id="serviceChip"><span class="dot"></span><span id="serviceText">جاري فحص حالة الخدمة…</span></div>
+
+            <div class="form-error" id="linkError" role="alert"></div>
+
+            <!-- الخطوة 1: إدخال الرقم -->
+            <form id="linkForm" novalidate>
+                <div class="field">
+                    <label for="phoneInput">📱 رقم الواتساب (سيصبح هو البوت)</label>
+                    <input type="tel" id="phoneInput" class="input" placeholder="201270221253"
+                           inputmode="numeric" autocomplete="tel" maxlength="16" required>
+                    <div class="hint">الصيغة الدولية بدون + أو مسافات — مثال: مصر 2010XXXXXXXX · السعودية 9665XXXXXXXX</div>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block" id="linkBtn">
+                    🔗 توليد كود الربط
+                </button>
+            </form>
+
+            <!-- الخطوة 2: الكود -->
+            <div class="code-display" id="codeBox">
+                <div class="code-label">🔑 كود الربط المخصص لرقم <b id="codePhone"></b></div>
+                <div class="code-value" id="codeValue">••••-••••</div>
+                <div class="code-timer" id="codeTimer">⏰ الصالحية: 3 دقائق</div>
+                <button class="btn btn-ghost btn-sm" id="copyBtn" style="margin-top:12px">📋 نسخ الكود</button>
+            </div>
+
+            <div class="mini-steps" id="miniSteps">
+                <b style="color:var(--purple-soft)">📋 خطوات إدخال الكود:</b>
+                <ol>
+                    <li>افتح <b>واتساب</b> على الموبايل الذي تريد ربطه</li>
+                    <li>الإعدادات ← <b>الأجهزة المرتبطة</b> ← ربط جهاز</li>
+                    <li>اضغط <b>«الربط برقم الهاتف بدلاً من ذلك»</b></li>
+                    <li>أدخل الكود الظاهر بالأعلى واحتفظ بالشاشة مفتوحة</li>
+                </ol>
+            </div>
+
+            <div class="waiting" id="waitingBox">
+                <div class="spinner"></div>
+                <span>في انتظار إدخال الكود في واتساب…</span>
+            </div>
+
+            <div class="linked-success" id="successBox">
+                🎉 <b>تم الربط بنجاح!</b><br>
+                افتح واتساب — وصلك الآن رسالة «<b>البوت يعمل العادة</b>» مع <b>رمزك السري</b> للدخول.
+                <div style="margin-top:14px">
+                    <a href="/login" class="btn btn-primary btn-sm">🔐 انتقل لتسجيل الدخول</a>
+                </div>
+            </div>
+
+            <!-- الرقم مرتبط بالفعل -->
+            <div id="alreadyBox" style="display:none; margin-top:18px">
+                <div style="padding:14px; border-radius:14px; background:rgba(52,211,153,.08); border:1px solid rgba(52,211,153,.35); color:var(--green); font-size:.88rem; font-weight:700; margin-bottom:14px">
+                    ✅ هذا الرقم مرتبط بالبوت بالفعل
+                </div>
+                <button class="btn btn-ghost btn-block" id="resendBtn">📨 إعادة إرسال الرمز السري إلى واتسابي</button>
+                <div style="margin-top:12px"><a href="/login" class="btn btn-primary btn-block">🔐 تسجيل الدخول</a></div>
+            </div>
+
+            <div class="auth-alt" id="altRow">
+                ربطت بوتك من قبل؟ <a href="/login">سجّل دخولك هنا</a>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container footer-inner">
+            <div class="f-brand">
+                <img src="/assets/img/riam-avatar.webp" alt="Queen Riam">
+                <span>QUEEN RIAM<br><span class="f-meta">© 2025 — Arabic Edition</span></span>
+            </div>
+            <div class="f-status" data-status-dot><span class="dot"></span><span data-status-text>…</span></div>
+        </div>
+    </footer>
+
+    <script src="/assets/js/app.js"></script>
+    <script src="/assets/js/link.js"></script>
+</body>
+</html>

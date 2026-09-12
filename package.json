@@ -1,12 +1,12 @@
 {
   "name": "Queen Riam",
-  "version": "1.0.0",
-  "description": "WhatsApp Bot",
+  "version": "1.2.0",
+  "description": "WhatsApp Bot + Web Dashboard (Arabic Edition)",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "node scripts/selftest.js",
     "docker:build": "docker build -t queenriam .",
     "docker:run": "docker run -e SESSION_ID=$SESSION_ID queenriam"
   },

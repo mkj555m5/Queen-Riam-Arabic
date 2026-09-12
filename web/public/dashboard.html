@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة التحكم | Queen Riam</title>
+    <meta name="description" content="لوحة تحكم Queen Riam — تحكم كامل في إعدادات البوت">
+    <meta name="theme-color" content="#07050d">
+    <link rel="icon" type="image/webp" href="/assets/img/riam-avatar.webp">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Orbitron:wght@500;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+    <div class="bg-fx" aria-hidden="true"></div>
+
+    <nav class="navbar" aria-label="التنقل الرئيسي">
+        <div class="container nav-inner">
+            <a href="/" class="brand">
+                <img src="/assets/img/riam-avatar.webp" alt="شعار Queen Riam" class="brand-avatar">
+                <span>
+                    <span class="brand-name">QUEEN RIAM</span><br>
+                    <span class="brand-tag">لوحة التحكم</span>
+                </span>
+            </a>
+            <div class="nav-links">
+                <a href="/">الرئيسية</a>
+                <a href="#" id="logoutBtn">خروج ⏏</a>
+                <a href="#" class="nav-cta" id="saveAllBtn">💾 حفظ التغييرات</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="dash-wrap container">
+        <!-- ترويسة اللوحة -->
+        <div class="dash-head">
+            <h1><span class="crown">👑</span> لوحة التحكم الكاملة</h1>
+            <div class="user-chip">
+                <img src="/assets/img/riam-avatar.webp" alt="صورتك">
+                <div class="info">
+                    <div class="nm" id="userName">…</div>
+                    <div class="rl" id="userRole">…</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- كروت الحالة -->
+        <div class="dash-cards" id="statusCards">
+            <div class="dcard">
+                <div class="t">حالة البوت</div>
+                <div class="v" id="botState">جاري الفحص…</div>
+            </div>
+            <div class="dcard">
+                <div class="t">رقمك</div>
+                <div class="v purple" id="myNumber" style="direction:ltr">…</div>
+            </div>
+            <div class="dcard">
+                <div class="t">عضويتك</div>
+                <div class="v purple" id="myRole">…</div>
+            </div>
+            <div class="dcard">
+                <div class="t">مدة تشغيل النظام</div>
+                <div class="v" id="uptime">…</div>
+            </div>
+        </div>
+
+        <!-- إعدادات البوت -->
+        <section class="panel" aria-labelledby="settings-title">
+            <div class="panel-head">
+                <h2 id="settings-title">⚙️ إعدادات البوت — تُطبق فوراً على جلستك</h2>
+                <span class="desc">كل تعديل يُحفظ مباشرة في بوت رقمك</span>
+            </div>
+            <div class="settings-grid" id="settingsGrid">
+                <!-- تُبنى ديناميكياً -->
+            </div>
+            <div style="display:flex; gap:12px; margin-top:20px; flex-wrap:wrap">
+                <button class="btn btn-primary" id="saveSettingsBtn">💾 حفظ الإعدادات</button>
+                <button class="btn btn-ghost" id="reloadSettingsBtn">↻ استعادة القيم المحفوظة</button>
+            </div>
+        </section>
+
+        <!-- لوحة المالك -->
+        <div id="ownerZone" style="display:none">
+            <section class="panel" aria-labelledby="owner-title">
+                <div class="panel-head">
+                    <h2 id="owner-title">🌐 إعدادات الموقع — <span style="color:var(--gold)">قسم المالك</span></h2>
+                    <span class="desc">تظهر لك فقط لأنك مالك النظام</span>
+                </div>
+                <div class="settings-grid">
+                    <div class="setting-row">
+                        <div>
+                            <div class="lbl">📊 حد عدد المسجلين</div>
+                            <div class="sub">بعد هذا العدد لا يمكن لأحد الربط (افتراضي: 20)</div>
+                        </div>
+                        <input type="number" id="regLimit" class="input" style="width:100px; text-align:center" min="1" max="500" value="20">
+                    </div>
+                    <div class="setting-row">
+                        <div>
+                            <div class="lbl">🔓 فتح الربط للجدد</div>
+                            <div class="sub">إيقافه يمنع أي رقم جديد من الربط</div>
+                        </div>
+                        <label class="switch"><input type="checkbox" id="allowLinks"><span class="track"></span></label>
+                    </div>
+                    <div class="setting-row" style="grid-column:1/-1">
+                        <div style="flex:1">
+                            <div class="lbl">📢 إعلان الموقع</div>
+                            <div class="sub">يظهر أعلى كل الصفحات (اتركه فارغاً لإخفائه)</div>
+                            <input type="text" id="announcement" class="input rtl" style="margin-top:8px" maxlength="300" placeholder="مثال: مرحباً بكم في الموقع الرسمي 👑">
+                        </div>
+                    </div>
+                </div>
+                <div style="margin-top:18px">
+                    <button class="btn btn-gold" id="saveSiteBtn">👑 حفظ إعدادات الموقع</button>
+                </div>
+            </section>
+
+            <section class="panel" aria-labelledby="users-title">
+                <div class="panel-head">
+                    <h2 id="users-title">👥 المستخدمون المسجلون</h2>
+                    <span class="desc" id="usersCount">…</span>
+                </div>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>الرقم</th>
+                                <th>الاسم</th>
+                                <th>العضوية</th>
+                                <th>الحالة</th>
+                                <th>تاريخ الربط</th>
+                                <th>إجراءات</th>
+                            </tr>
+                        </thead>
+                        <tbody id="usersBody">
+                            <tr><td colspan="6" style="text-align:center; color:var(--text-faint)">جاري التحميل…</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+
+        <!-- منطقة الخطر -->
+        <section class="panel" style="border-color:rgba(248,113,113,.3)" aria-labelledby="danger-title">
+            <div class="panel-head">
+                <h2 id="danger-title" style="color:var(--red)">⚠️ منطقة الخطر</h2>
+                <span class="desc" id="dangerDesc">فصل البوت يحذف جلستك نهائياً وستحتاج ربطاً جديداً</span>
+            </div>
+            <button class="btn btn-danger" id="unlinkBtn" style="display:none">🗑️ فصل بوتي وحذف بياناتي</button>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container footer-inner">
+            <div class="f-brand">
+                <img src="/assets/img/riam-avatar.webp" alt="Queen Riam">
+                <span>QUEEN RIAM<br><span class="f-meta">© 2025 — Arabic Edition</span></span>
+            </div>
+            <div class="f-status" data-status-dot><span class="dot"></span><span data-status-text>…</span></div>
+        </div>
+    </footer>
+
+    <script src="/assets/js/app.js"></script>
+    <script src="/assets/js/dashboard.js"></script>
+</body>
+</html>

@@ -38,3 +38,8 @@ temp/
 # Build output
 dist/
 build/
+
+# Web dashboard runtime data (لا تُنشر — بيانات مستخدمين حقيقية)
+data/web_users.json
+data/web_sessions.json
+data/site_settings.json

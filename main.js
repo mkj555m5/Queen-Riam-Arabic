@@ -22,7 +22,44 @@ const { isButtonModeOn, sendButtonMessage } = require('./lib/buttonHelper');
 const isAdmin = require('./lib/isAdmin');
 const { isBanned } = require('./lib/isBanned');
 const { hasOwnerPrivileges } = require('./plugins/sudo');
+const membership = require('./lib/membership');
 const yatoAdapter = require('./lib/yatoAdapter');
+
+// ── صلاحيات العضوية المميزة 💎 ──────────────────────────────────────────────
+// أوامر التحكم الكامل في البلوجنات/الأكواد/المستخدمين — للمالك فقط دائماً.
+// باقي أوامر المالك (الإعدادات والسلوك) تُتاح للأعضاء المميزين 💎.
+const FULL_CONTROL_COMMANDS = new Set([
+    'sudo',           // إدارة مستخدمي sudo
+    'pair',           // ربط/فصل الجلسات
+    'reloadplugins',  // إعادة تحميل كود البلوجنات
+    'update',         // تحديث كود البوت نفسه
+    'clearsession',   // حذف جلسات
+]);
+
+/**
+ * فحص صلاحية أمر من فئة owner:
+ *  • المالك → مسموح دائماً
+ *  • عضو مميز 💎 → مسموح إلا لأوامر التحكم الكامل
+ *  • عادي → مرفوض
+ */
+function checkOwnerCommandAccess(command, sender, message, botJid, sessionNumber, sock) {
+    if (hasOwnerPrivileges(sender, message, botJid, sessionNumber)) {
+        return { allowed: true, reason: 'owner' };
+    }
+    const senderNum = membership.normalizePhone(sender);
+    const ownerNum = membership.normalizePhone(settings.ownerNumber);
+    if (senderNum && senderNum === ownerNum) {
+        return { allowed: true, reason: 'owner-number' };
+    }
+    if (!FULL_CONTROL_COMMANDS.has(command) && membership.isPremiumUser(senderNum, settings.ownerNumber)) {
+        return { allowed: true, reason: 'premium' };
+    }
+    const isPremium = membership.isPremiumUser(senderNum, settings.ownerNumber);
+    return {
+        allowed: false,
+        reason: isPremium ? 'premium-restricted' : 'not-owner',
+    };
+}
 
 // ── أدوات مساعدة ──────────────────────────────────────────────────────────
 
@@ -182,6 +219,21 @@ async function processMessage(sock, message, sessionNumber) {
             }
         }
 
+        // ── بوابة أوامر المالك + العضوية المميزة 💎 ──────────────────────────
+        if (meta?.category === 'owner') {
+            const access = checkOwnerCommandAccess(command, sender, message, sock.user?.id, sessionNumber, sock);
+            if (!access.allowed) {
+                const denyText = access.reason === 'premium-restricted'
+                    ? '👑 هذا الأمر من أوامر التحكم الكامل — متاح للمالك فقط.'
+                    : '💎 هذا الأمر يحتاج *عضوية مميزة* أو ملكية البوت.\n\nتواصل مع مالك الموقع للترقية إلى العضوية المميزة 💎';
+                await sock.sendMessage(chatId, { text: denyText }, { quoted: message });
+                return;
+            }
+            if (access.reason === 'premium') {
+                console.log(`[cmd] 💎 تنفيذ أمر مالك عبر عضوية مميزة: ${command}`);
+            }
+        }
+
         // ── تنفيذ الأمر ──────────────────────────────────────────────────────────
         try {
             const ctx = { sessionNumber, sender, chatId, message, args, query };
@@ -199,11 +251,15 @@ async function processMessage(sock, message, sessionNumber) {
         const { handler: yatoHandler, meta: yatoMeta } = yatoEntry;
         console.log(`[cmd] تنفيذ أمر Yato "${command}" (${yatoMeta?.tags || 'general'})`);
 
-        // التحقق من صلاحيات المالك لو handler.rowner = true
+        // التحقق من صلاحيات المالك لو handler.rowner = true (مع دعم العضوية المميزة 💎)
         if (yatoMeta?.rowner || yatoMeta?.owner) {
-            if (!hasOwnerPrivileges(sender, message, sock.user?.id, sessionNumber)) {
+            const access = checkOwnerCommandAccess(command, sender, message, sock.user?.id, sessionNumber, sock);
+            if (!access.allowed) {
+                const denyText = access.reason === 'premium-restricted'
+                    ? '👑 هذا الأمر من أوامر التحكم الكامل — متاح للمالك فقط.'
+                    : '💎 هذا الأمر يحتاج *عضوية مميزة* أو ملكية البوت.';
                 await sock.sendMessage(chatId, {
-                    text: '❌ هذا الأمر متاح للمالك فقط.',
+                    text: denyText,
                 }, { quoted: message });
                 return;
             }
@@ -243,4 +299,4 @@ async function processMessage(sock, message, sessionNumber) {
     console.log(`[cmd] الأمر "${command}" غير موجود في pluginMap ولا في Yato adapter`);
 }
 
-module.exports = { handleMessages, processMessage, parseCommand, getMessageText, getSender };
+module.exports = { handleMessages, processMessage, parseCommand, getMessageText, getSender, checkOwnerCommandAccess, FULL_CONTROL_COMMANDS };
