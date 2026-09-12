@@ -43,3 +43,6 @@ build/
 data/web_users.json
 data/web_sessions.json
 data/site_settings.json
+
+# إعدادات الجلسات الفردية (تُنشأ عند التشغيل)
+data/config_*.json
